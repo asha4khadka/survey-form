@@ -92,14 +92,12 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   });
 });
 
-// Start listening locally when not running in Vercel serverless environment
-if (!process.env.VERCEL) {
-  app.listen(PORT, () => {
-    console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on http://localhost:${PORT}`);
-  });
-}
+// Start listening on assigned port (required for Vercel Services and local execution)
+const server = app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
+});
 
-// Support both ESM and CommonJS exports for Vercel Serverless
+// Support both ESM and CommonJS exports
 (app as any).default = app;
 module.exports = app;
 export default app;
