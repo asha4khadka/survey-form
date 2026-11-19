@@ -37,6 +37,28 @@ export const PublicSurveyView: React.FC = () => {
   const [resumeTokenInput, setResumeTokenInput] = useState('');
   const [showResumeModal, setShowResumeModal] = useState(false);
   const [copiedDraftToken, setCopiedDraftToken] = useState(false);
+  const [copiedDraftLink, setCopiedDraftLink] = useState(false);
+
+  // Auto-restore draft if ?draft=<token> query parameter is present in URL
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const tokenFromUrl = params.get('draft');
+    if (tokenFromUrl && id) {
+      const loadDraftFromUrl = async () => {
+        try {
+          const res = await api.get(`/surveys/${id}/drafts/${tokenFromUrl.trim()}`);
+          if (res.data.success) {
+            setAnswers(res.data.data.answers || {});
+            setDraftToken(res.data.data.draftToken);
+            setDraftSavedAt(new Date(res.data.data.lastSavedAt).toLocaleTimeString());
+          }
+        } catch (err) {
+          console.warn('Could not auto-load draft from URL:', err);
+        }
+      };
+      loadDraftFromUrl();
+    }
+  }, [id]);
 
   // Fetch survey schema
   useEffect(() => {
@@ -317,22 +339,42 @@ export const PublicSurveyView: React.FC = () => {
                 </strong>
               </span>
             </div>
-            <button
-              type="button"
-              onClick={() => {
-                navigator.clipboard.writeText(draftToken);
-                setCopiedDraftToken(true);
-                setTimeout(() => setCopiedDraftToken(false), 2000);
-              }}
-              className="px-2.5 py-1 bg-white hover:bg-blue-100 border border-blue-200 rounded-lg font-semibold flex items-center gap-1 text-[11px] self-start"
-            >
-              {copiedDraftToken ? (
-                <Check className="w-3 h-3 text-emerald-600" />
-              ) : (
-                <Copy className="w-3 h-3 text-blue-600" />
-              )}
-              <span>{copiedDraftToken ? 'Copied' : 'Copy Code'}</span>
-            </button>
+            <div className="flex items-center gap-2 self-start sm:self-auto">
+              <button
+                type="button"
+                onClick={() => {
+                  navigator.clipboard.writeText(draftToken);
+                  setCopiedDraftToken(true);
+                  setTimeout(() => setCopiedDraftToken(false), 2000);
+                }}
+                className="px-2.5 py-1 bg-white hover:bg-blue-100 border border-blue-200 rounded-lg font-semibold flex items-center gap-1 text-[11px]"
+              >
+                {copiedDraftToken ? (
+                  <Check className="w-3 h-3 text-emerald-600" />
+                ) : (
+                  <Copy className="w-3 h-3 text-blue-600" />
+                )}
+                <span>{copiedDraftToken ? 'Copied Code' : 'Copy Code'}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  const directUrl = `${window.location.origin}/survey/${id}?draft=${draftToken}`;
+                  navigator.clipboard.writeText(directUrl);
+                  setCopiedDraftLink(true);
+                  setTimeout(() => setCopiedDraftLink(false), 2000);
+                }}
+                className="px-2.5 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold flex items-center gap-1 text-[11px]"
+              >
+                {copiedDraftLink ? (
+                  <Check className="w-3 h-3 text-white" />
+                ) : (
+                  <Copy className="w-3 h-3 text-white" />
+                )}
+                <span>{copiedDraftLink ? 'Copied Link' : 'Copy Resume Link'}</span>
+              </button>
+            </div>
           </div>
         )}
 
