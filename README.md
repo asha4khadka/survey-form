@@ -249,23 +249,6 @@ Open your browser at **[http://localhost:5173](http://localhost:5173)**.
 4. Copy the generated resume code.
 5. Refresh the page or click **"Resume"**, paste your code, and watch your answers restore instantly from the cloud.
 
----
-
-## 🌐 Deployment Instructions
-
-### Frontend (Vercel / Netlify)
-1. Set the root directory to `client`.
-2. Build command: `npm run build`
-3. Output directory: `dist`
-4. Environment variable: `VITE_API_URL=https://your-backend-api.onrender.com/api`
-
-### Backend (Render / Railway)
-1. Set root directory to `server`.
-2. Build command: `npm run build`
-3. Start command: `npm start`
-4. Environment variables: `MONGO_URI`, `JWT_SECRET`, `CLIENT_URL=https://your-frontend.vercel.app`
-
----
 
 ## 📹 Demo Video Outline
 
