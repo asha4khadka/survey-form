@@ -85,10 +85,12 @@ app.use((err, _req, res, _next) => {
         message: err.message || 'Internal server error',
     });
 });
-// Start listening on assigned port (required for Vercel Services and local execution)
-const server = app.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
-});
+// Only start HTTP listener when run directly (standalone mode), not in Vercel serverless environment
+if (!process.env.VERCEL) {
+    app.listen(PORT, () => {
+        console.log(`Server listening on port ${PORT}`);
+    });
+}
 // Support both ESM and CommonJS exports
 app.default = app;
 module.exports = app;
