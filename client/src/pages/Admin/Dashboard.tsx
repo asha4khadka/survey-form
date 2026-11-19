@@ -90,24 +90,24 @@ export const Dashboard: React.FC = () => {
   const publishedCount = surveys.filter((s) => s.status === 'published').length;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8">
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 flex items-center gap-2.5">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 flex items-center gap-2.5">
             <span>Survey Management</span>
             <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-blue-100 text-blue-700">
               Admin
             </span>
           </h1>
-          <p className="text-sm text-slate-500 mt-1">
+          <p className="text-xs sm:text-sm text-slate-500 mt-1">
             Build surveys with conditional branching, publish public forms, and monitor real-time analytics.
           </p>
         </div>
 
         <Link
           to="/admin/surveys/new"
-          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm shadow-md shadow-blue-500/20 hover:shadow-blue-500/30 transition"
+          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm shadow-md shadow-blue-500/20 hover:shadow-blue-500/30 transition w-full sm:w-auto"
         >
           <PlusCircle className="w-4 h-4" />
           <span>Create New Survey</span>
@@ -148,8 +148,8 @@ export const Dashboard: React.FC = () => {
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex items-center justify-between border-b border-slate-200 pb-3">
-        <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between border-b border-slate-200 pb-3 overflow-x-auto">
+        <div className="flex items-center gap-2 min-w-max">
           {(['all', 'published', 'draft', 'archived'] as const).map((tab) => (
             <button
               key={tab}
@@ -245,8 +245,8 @@ export const Dashboard: React.FC = () => {
               </div>
 
               {/* Action Bar */}
-              <div className="px-5 py-3 bg-slate-50/80 border-t border-slate-100 flex items-center justify-between gap-2">
-                <div className="flex items-center gap-1.5">
+              <div className="px-4 sm:px-5 py-3 bg-slate-50/80 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2">
+                <div className="flex items-center gap-1 sm:gap-1.5">
                   <Link
                     to={`/admin/surveys/${survey._id}/analytics`}
                     title="View Analytics"
@@ -286,7 +286,7 @@ export const Dashboard: React.FC = () => {
                   </a>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 ml-auto sm:ml-0">
                   <select
                     value={survey.status}
                     onChange={(e) => handleStatusChange(survey._id, e.target.value)}

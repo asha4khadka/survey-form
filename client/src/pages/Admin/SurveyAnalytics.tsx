@@ -94,33 +94,33 @@ export const SurveyAnalytics: React.FC = () => {
   const { survey, overview, questions } = data;
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div className="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8">
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <Link
             to="/admin"
-            className="p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition"
+            className="p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition shrink-0"
           >
             <ArrowLeft className="w-5 h-5" />
           </Link>
-          <div>
+          <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <span className="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+              <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
                 Analytics & Insights
               </span>
               <span className="text-xs text-slate-400">v{survey.version}</span>
             </div>
-            <h1 className="text-2xl font-bold text-slate-900 mt-1">{survey.title}</h1>
+            <h1 className="text-xl sm:text-2xl font-bold text-slate-900 mt-1 truncate">{survey.title}</h1>
           </div>
         </div>
 
         {/* Export Buttons */}
-        <div className="flex items-center gap-2">
+        <div className="grid grid-cols-2 sm:flex sm:items-center gap-2">
           <button
             onClick={() => handleExport('csv')}
             disabled={overview.totalResponses === 0}
-            className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-xl bg-white border border-slate-200 hover:border-emerald-300 hover:bg-emerald-50 text-slate-700 hover:text-emerald-700 shadow-xs transition disabled:opacity-40"
+            className="inline-flex items-center justify-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-xl bg-white border border-slate-200 hover:border-emerald-300 hover:bg-emerald-50 text-slate-700 hover:text-emerald-700 shadow-xs transition disabled:opacity-40"
           >
             <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
             <span>Export CSV</span>
@@ -129,7 +129,7 @@ export const SurveyAnalytics: React.FC = () => {
           <button
             onClick={() => handleExport('json')}
             disabled={overview.totalResponses === 0}
-            className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-xl bg-white border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 shadow-xs transition disabled:opacity-40"
+            className="inline-flex items-center justify-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-xl bg-white border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 shadow-xs transition disabled:opacity-40"
           >
             <FileCode className="w-4 h-4 text-indigo-600" />
             <span>Export JSON</span>
@@ -138,7 +138,7 @@ export const SurveyAnalytics: React.FC = () => {
       </div>
 
       {/* Aggregate Overview Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-5">
         <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
           <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
             <Users className="w-6 h-6" />
@@ -188,7 +188,7 @@ export const SurveyAnalytics: React.FC = () => {
           return (
             <div
               key={q.id}
-              className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-5"
+              className="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-6 space-y-4 sm:space-y-5"
             >
               {/* Question header */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">

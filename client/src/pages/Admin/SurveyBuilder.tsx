@@ -243,18 +243,18 @@ export const SurveyBuilder: React.FC = () => {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    <div className="max-w-5xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-4 sm:space-y-6">
       {/* Top Navigation & Actions Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm sticky top-20 z-40">
-        <div className="flex items-center gap-3">
+      <div className="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200 shadow-sm sticky top-16 sm:top-20 z-40 space-y-3 sm:space-y-0 sm:flex sm:items-center sm:justify-between">
+        <div className="flex items-center gap-2.5 sm:gap-3">
           <Link
             to="/admin"
-            className="p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition"
+            className="p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition shrink-0"
           >
             <ArrowLeft className="w-5 h-5" />
           </Link>
-          <div>
-            <h1 className="text-lg font-bold text-slate-900 leading-tight">
+          <div className="min-w-0">
+            <h1 className="text-base sm:text-lg font-bold text-slate-900 leading-tight truncate">
               {isEditing ? 'Edit Survey' : 'Build New Survey'}
             </h1>
             <p className="text-xs text-slate-500">
@@ -263,13 +263,13 @@ export const SurveyBuilder: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-2.5">
+        <div className="grid grid-cols-2 sm:flex sm:items-center gap-2">
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value as any)}
-            className="text-xs font-semibold py-2 px-3 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 focus:outline-none"
+            className="text-xs font-semibold py-2 px-2.5 sm:px-3 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 focus:outline-none col-span-1"
           >
-            <option value="published">Status: Published (Active)</option>
+            <option value="published">Status: Published</option>
             <option value="draft">Status: Draft</option>
           </select>
 
@@ -279,17 +279,17 @@ export const SurveyBuilder: React.FC = () => {
               setPreviewAnswers({});
               setShowPreview(true);
             }}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition"
+            className="inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition col-span-1"
           >
-            <Eye className="w-4 h-4 text-slate-500" />
-            <span>Interactive Preview</span>
+            <Eye className="w-3.5 h-3.5 text-slate-500" />
+            <span>Preview</span>
           </button>
 
           <button
             type="button"
             disabled={isSaving}
             onClick={handleSave}
-            className="inline-flex items-center gap-2 px-5 py-2 text-xs font-semibold rounded-xl bg-blue-600 hover:bg-blue-700 text-white shadow-md shadow-blue-500/20 transition disabled:opacity-50"
+            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 sm:py-2 text-xs font-semibold rounded-xl bg-blue-600 hover:bg-blue-700 text-white shadow-md shadow-blue-500/20 transition disabled:opacity-50 col-span-2 sm:col-auto"
           >
             <Save className="w-4 h-4" />
             <span>{isSaving ? 'Saving...' : 'Save Survey'}</span>
@@ -358,22 +358,22 @@ export const SurveyBuilder: React.FC = () => {
             >
               {/* Question Header & Order Controls */}
               <div className="flex items-center justify-between border-b border-slate-100 pb-3 gap-2">
-                <div className="flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-lg bg-blue-50 text-blue-700 text-xs font-bold flex items-center justify-center">
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="w-6 h-6 rounded-lg bg-blue-50 text-blue-700 text-xs font-bold flex items-center justify-center shrink-0">
                     {qIndex + 1}
                   </span>
-                  <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-slate-500 truncate">
                     {question.type === 'multiple_choice'
-                      ? 'Multiple Choice (Single Select)'
+                      ? 'Multiple Choice (Single)'
                       : question.type === 'checkbox'
-                      ? 'Checkbox (Multi-Select)'
+                      ? 'Checkbox (Multi)'
                       : question.type === 'rating'
-                      ? 'Rating (1-5 Scale)'
+                      ? 'Rating (1-5)'
                       : 'Text Input'}
                   </span>
                 </div>
 
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 shrink-0">
                   <button
                     type="button"
                     onClick={() => moveQuestion(qIndex, 'up')}
@@ -603,9 +603,19 @@ export const SurveyBuilder: React.FC = () => {
                     return (
                       <div
                         key={condIdx}
-                        className="bg-white p-3 rounded-lg border border-indigo-200 shadow-xs flex flex-wrap items-center gap-2"
+                        className="bg-white p-3 rounded-lg border border-indigo-200 shadow-xs flex flex-col sm:flex-row sm:items-center gap-2"
                       >
-                        <span className="text-xs font-medium text-slate-500">If Question:</span>
+                        <div className="flex items-center justify-between sm:justify-start gap-2">
+                          <span className="text-xs font-semibold text-slate-500 whitespace-nowrap">If Question:</span>
+                          <button
+                            type="button"
+                            onClick={() => removeCondition(qIndex, condIdx)}
+                            className="sm:hidden p-1 text-slate-400 hover:text-red-600 rounded"
+                            title="Delete Condition"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
 
                         {/* Select Preceding Question */}
                         <select
@@ -620,7 +630,7 @@ export const SurveyBuilder: React.FC = () => {
                             updateCondition(qIndex, condIdx, 'dependsOnQuestionId', newQId);
                             updateCondition(qIndex, condIdx, 'value', defaultVal);
                           }}
-                          className="text-xs font-medium py-1.5 px-2.5 rounded-md bg-slate-50 border border-slate-200 text-slate-800 focus:outline-none"
+                          className="w-full sm:w-auto flex-1 text-xs font-medium py-1.5 px-2.5 rounded-md bg-slate-50 border border-slate-200 text-slate-800 focus:outline-none"
                         >
                           {priorQuestions.map((pq, pIdx) => (
                             <option key={pq.id} value={pq.id}>
@@ -641,7 +651,7 @@ export const SurveyBuilder: React.FC = () => {
                               e.target.value as ConditionOperator
                             )
                           }
-                          className="text-xs font-medium py-1.5 px-2.5 rounded-md bg-slate-50 border border-slate-200 text-slate-800 focus:outline-none"
+                          className="w-full sm:w-auto text-xs font-medium py-1.5 px-2.5 rounded-md bg-slate-50 border border-slate-200 text-slate-800 focus:outline-none"
                         >
                           <option value="equals">Equals ( = )</option>
                           <option value="not_equals">Does Not Equal ( ≠ )</option>
@@ -662,7 +672,7 @@ export const SurveyBuilder: React.FC = () => {
                             onChange={(e) =>
                               updateCondition(qIndex, condIdx, 'value', e.target.value)
                             }
-                            className="text-xs font-medium py-1.5 px-2.5 rounded-md bg-slate-50 border border-slate-200 text-slate-800 focus:outline-none"
+                            className="w-full sm:w-auto text-xs font-medium py-1.5 px-2.5 rounded-md bg-slate-50 border border-slate-200 text-slate-800 focus:outline-none"
                           >
                             {targetQ.options.map((opt, oIdx) => (
                               <option key={oIdx} value={opt}>
@@ -678,14 +688,14 @@ export const SurveyBuilder: React.FC = () => {
                               updateCondition(qIndex, condIdx, 'value', e.target.value)
                             }
                             placeholder="Target value..."
-                            className="text-xs font-medium py-1.5 px-2.5 rounded-md bg-slate-50 border border-slate-200 text-slate-800 focus:outline-none"
+                            className="w-full sm:w-auto text-xs font-medium py-1.5 px-2.5 rounded-md bg-slate-50 border border-slate-200 text-slate-800 focus:outline-none"
                           />
                         )}
 
                         <button
                           type="button"
                           onClick={() => removeCondition(qIndex, condIdx)}
-                          className="p-1 text-slate-400 hover:text-red-600 rounded ml-auto"
+                          className="hidden sm:block p-1 text-slate-400 hover:text-red-600 rounded ml-auto"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
@@ -700,45 +710,45 @@ export const SurveyBuilder: React.FC = () => {
       </div>
 
       {/* Add Question Button Toolbar */}
-      <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm text-center space-y-4">
+      <div className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-6 shadow-sm text-center space-y-3 sm:space-y-4">
         <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">
           Add New Question Type
         </p>
 
-        <div className="flex flex-wrap items-center justify-center gap-3">
+        <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:justify-center gap-2.5 sm:gap-3">
           <button
             type="button"
             onClick={() => addQuestion('text')}
-            className="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-50 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 transition"
+            className="inline-flex items-center justify-center gap-2 p-3 sm:px-4 sm:py-2.5 bg-slate-50 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 transition"
           >
-            <Type className="w-4 h-4 text-blue-600" />
+            <Type className="w-4 h-4 text-blue-600 shrink-0" />
             <span>Text Input</span>
           </button>
 
           <button
             type="button"
             onClick={() => addQuestion('multiple_choice')}
-            className="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-50 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 transition"
+            className="inline-flex items-center justify-center gap-2 p-3 sm:px-4 sm:py-2.5 bg-slate-50 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 transition"
           >
-            <List className="w-4 h-4 text-emerald-600" />
+            <List className="w-4 h-4 text-emerald-600 shrink-0" />
             <span>Multiple Choice</span>
           </button>
 
           <button
             type="button"
             onClick={() => addQuestion('checkbox')}
-            className="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-50 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 transition"
+            className="inline-flex items-center justify-center gap-2 p-3 sm:px-4 sm:py-2.5 bg-slate-50 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 transition"
           >
-            <CheckSquare className="w-4 h-4 text-purple-600" />
+            <CheckSquare className="w-4 h-4 text-purple-600 shrink-0" />
             <span>Checkbox</span>
           </button>
 
           <button
             type="button"
             onClick={() => addQuestion('rating')}
-            className="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-50 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 transition"
+            className="inline-flex items-center justify-center gap-2 p-3 sm:px-4 sm:py-2.5 bg-slate-50 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 transition"
           >
-            <Star className="w-4 h-4 text-amber-500" />
+            <Star className="w-4 h-4 text-amber-500 shrink-0" />
             <span>Rating (1-5)</span>
           </button>
         </div>
