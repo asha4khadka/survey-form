@@ -4,6 +4,7 @@
   "private": true,
   "description": "Full-Stack Dynamic Survey Builder & Analytics Platform (MERN)",
   "scripts": {
+    "postinstall": "npm install --prefix server && npm install --prefix client",
     "install:all": "npm install --prefix server && npm install --prefix client",
     "dev:server": "npm run dev --prefix server",
     "dev:client": "npm run dev --prefix client",
